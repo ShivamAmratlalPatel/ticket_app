@@ -1,0 +1,86 @@
+name: Testing
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linting-and-formatting:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11.1'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: poetry install --no-root
+
+    - name: Run black
+      run: poetry run black src/
+
+    - name: Run isort
+      run: poetry run isort src/
+
+    - name: Run flake8
+      run: poetry run flake8 src/
+
+    - name: Run pylint
+      run: poetry run pylint src/
+
+    - name: Run mypy
+      run: poetry run mypy src/
+
+    - name: Run Darglint
+      run: poetry run darglint -s google src/
+
+  pytest-with-coverage:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11.1'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install --no-root
+
+      - name: Run pytest with coverage
+        run: |
+          poetry run pytest --cov=my_project testing/
+
+      - name: Check coverage
+        run: |
+          COVERAGE=$(coverage report | grep TOTAL | awk '{print $NF}' | tr -d '%')
+          if [ $COVERAGE != 100 ]; then
+            echo "Coverage is not 100%"
+            exit 1
+          fi
+
+
+
