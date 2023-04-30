@@ -2,6 +2,8 @@ name: Testing
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -27,24 +29,31 @@ jobs:
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
     - name: Install dependencies
+      working-directory: backend
       run: poetry install --no-root
 
     - name: Run black
+      working-directory: backend
       run: poetry run black src/
 
     - name: Run isort
+      working-directory: backend
       run: poetry run isort src/
 
     - name: Run flake8
+      working-directory: backend
       run: poetry run flake8 src/
 
     - name: Run pylint
+      working-directory: backend
       run: poetry run pylint src/
 
     - name: Run mypy
+      working-directory: backend
       run: poetry run mypy src/
 
     - name: Run Darglint
+      working-directory: backend
       run: poetry run darglint -s google src/
 
   pytest-with-coverage:
@@ -68,13 +77,16 @@ jobs:
           echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
+        working-directory: backend
         run: poetry install --no-root
 
       - name: Run pytest with coverage
+        working-directory: backend
         run: |
           poetry run pytest --cov=my_project testing/
 
       - name: Check coverage
+        working-directory: backend
         run: |
           COVERAGE=$(coverage report | grep TOTAL | awk '{print $NF}' | tr -d '%')
           if [ $COVERAGE != 100 ]; then
