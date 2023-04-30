@@ -1,7 +1,18 @@
 """Main module for the FastAPI application."""
 from fastapi import FastAPI, status
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# Add the CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/", response_model=dict, status_code=status.HTTP_200_OK)

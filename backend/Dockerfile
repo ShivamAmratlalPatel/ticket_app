@@ -2,7 +2,7 @@
 FROM python:3.11-slim-buster
 
 # Set working directory
-WORKDIR /app
+WORKDIR /app/backend
 
 # Copy the poetry.lock file and pyproject.toml file
 COPY poetry.lock pyproject.toml ./

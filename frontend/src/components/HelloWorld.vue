@@ -38,6 +38,7 @@ const count = ref(0)
 </style>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'HelloWorld',
   props: {
@@ -54,12 +55,11 @@ export default {
   methods: {
     getHelloWorld() {
     // make a get request to localhost:8000 and set the response to message
-      fetch('http://localhost:8000')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(response)
-          this.message = data.message;
-        });
+      axios.get('http://localhost:8000',{
+          withCredentials: true,
+      }).then((response) => {
+        this.message = response.data;
+      });
     },
   }
 };
