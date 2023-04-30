@@ -3,42 +3,49 @@ repos:
     hooks:
       - id: black
         name: black
-        entry: poetry run black src/
+        entry: poetry run black backend/src/
         language: system
         pass_filenames: false
         types: [python]
 
       - id: isort
         name: isort
-        entry: poetry run isort src/
+        entry: poetry run isort --settings-path backend/src/ backend/src/
         language: system
         pass_filenames: false
         types: [python]
 
       - id: flake8
         name: flake8
-        entry: poetry run flake8 src/
+        entry: poetry run flake8 --config=backend/src/.flake8 backend/src/
         language: system
         pass_filenames: false
         types: [python]
 
       - id: pylint
         name: pylint
-        entry: poetry run pylint src/
+        entry: poetry run pylint backend/src/
         language: system
         pass_filenames: false
         types: [python]
 
       - id: mypy
         name: mypy
-        entry: poetry run mypy src/
+        entry: poetry run mypy backend/src/
         language: system
         pass_filenames: false
         types: [python]
 
       - id: darglint
         name: darglint
-        entry: poetry run darglint src/
+        entry: poetry run darglint backend/src/
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: pytest
+        name: pytest
+        entry: poetry run pytest backend/testing/
         language: system
         pass_filenames: false
         types: [python]
