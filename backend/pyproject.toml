@@ -1,15 +1,21 @@
 [tool.poetry]
 name = "nhsf-ticket-app"
 version = "0.1.0"
-description = ""
-authors = ["Shivam Patel <shivam@tenancy360.co.uk>"]
+description = "A ticketing app for NHSF"
+authors = ["Shivam Patel <shivpatel1306@gmail.com>"]
 readme = "README.md"
-packages = [{include = "main", from = "src"}]
+packages = [{include = "main", from = "src"},
+            {include = "database", from = "src"},
+            {include = "models", from = "src"}]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.95.1"
 uvicorn = "^0.21.1"
+alembic = "^1.10.4"
+sqlalchemy = "^2.0.12"
+psycopg2-binary = "^2.9.6"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^2.15.5"
