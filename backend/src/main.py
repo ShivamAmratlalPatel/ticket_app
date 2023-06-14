@@ -1,13 +1,7 @@
 """Main module for the FastAPI application."""
 
-from fastapi import FastAPI, status, Depends, HTTPException
-
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
-
-from .helpers import get_db
-from .models import Chapter
-from .schemas import ChapterList
 
 app = FastAPI()
 
@@ -26,10 +20,12 @@ async def root() -> dict[str, str]:
     """
     Root endpoint for the API.
 
-    Returns:
+    Returns
+    -------
         dict: message
 
-    Examples:
+    Examples
+    --------
         >>> root()
         {"message": "Hello World"}
 
@@ -61,62 +57,58 @@ def healthcheck() -> dict[str, str]:
     """
     Healthcheck endpoint for the API.
 
-    Returns:
+    Returns
+    -------
         dict: status
 
     Examples
+    --------
         >>> healthcheck()
         {"status": "ok"}
     """
     return {"status": "ok"}
 
 
-@app.get(
-    "/chapters",
-    status_code=status.HTTP_200_OK,
-    response_model=ChapterList,
-    tags=["chapters"],
-    summary="Get a list of chapters.",
-    description="Get a list of chapters.",
-    responses={
-        status.HTTP_200_OK: {
-            "description": "List of chapters.",
-            "content": {
-                "application/json": {
-                    "example": {"chapters": ["Chapter 1", "Chapter 2", "Chapter 3"]}
-                }
-            },
-        },
-        status.HTTP_500_INTERNAL_SERVER_ERROR: {
-            "description": "Unable to retrieve chapters from the database.",
-            "content": {"application/json": {"example": {"detail": str}}},
-        },
-    },
-)
-def get_chapters(db: Session = Depends(get_db)) -> ChapterList:
+# @app.get(
+#     "/chapters",
+#         status.HTTP_200_OK: {
+#                 "application/json": {
+#             },
+#         },
+#         status.HTTP_500_INTERNAL_SERVER_ERROR: {
+#         },
+#     },
+# def get_chapters(db: Session = Depends(get_db)) -> ChapterList:
+#     """
+#     Get a list of chapters.
+#
+#     Args:
+#             database session
+#
+#     Returns:
+#         ChapterList: list of chapters
+#
+#     Raises:
+#         HTTPException: if unable to retrieve chapters from the database
+#
+#     Examples:
+#         >>> get_chapters()
+#     """
+#         raise HTTPException(
+
+
+@app.get("/hihihih", status_code=status.HTTP_200_OK)
+def hi() -> dict[str, str]:
     """
-    Get a list of chapters.
+    Say hi to the user.
 
-    Args:
-        db: Session
-            database session
+    Returns
+    -------
+        dict: message
 
-    Returns:
-        ChapterList: list of chapters
-
-    Raises:
-        HTTPException: if unable to retrieve chapters from the database
-
-    Examples:
-        >>> get_chapters()
-        ChapterList(chapters=["Chapter 1", "Chapter 2", "Chapter 3"])
+    Examples
+    --------
+        >>> hi()
+        {"message": "Hi there!"}
     """
-    try:
-        chapters = db.query(Chapter.chapter_name).all()
-    except Exception as e:
-        print(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Unable to retrieve chapters from the database.",
-        )
-    return ChapterList(chapters=[chapter[0] for chapter in chapters])
+    return {"message": "Hi there!"}

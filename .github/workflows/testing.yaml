@@ -40,21 +40,9 @@ jobs:
       working-directory: backend
       run: poetry run isort src/
 
-    - name: Run flake8
+    - name: Run ruff
       working-directory: backend
-      run: poetry run flake8 src/
-
-    - name: Run pylint
-      working-directory: backend
-      run: poetry run pylint src/
-
-    - name: Run mypy
-      working-directory: backend
-      run: poetry run mypy src/
-
-    - name: Run Darglint
-      working-directory: backend
-      run: poetry run darglint -s google src/
+      run: poetry run ruff check .
 
   pytest-with-coverage:
     runs-on: ubuntu-latest

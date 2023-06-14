@@ -1,13 +1,26 @@
-"""File for storing database connection functions"""
+"""File for storing database connection functions."""
 import os
 
-from sqlalchemy import create_engine, Engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import NullPool
 
 
-def session_local_factory(database_url: str = None) -> sessionmaker[Session]:
+def session_local_factory(database_url: str | None = None) -> sessionmaker[Session]:
+    """
+    Create a session factory for a local database.
+
+    Args:
+        database_url (str, optional): database URL. Defaults to None.
+    ----
+
+
+    Returns:
+    -------
+        sessionmaker[Session]: session factory
+
+    """
     if database_url is None:
         database_url = os.environ["DATABASE_URL"]
     engine: Engine = create_engine(database_url, poolclass=NullPool)

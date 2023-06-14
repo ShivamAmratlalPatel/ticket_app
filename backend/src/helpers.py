@@ -6,7 +6,8 @@ def get_db() -> None:
     """
     Get a database session.
 
-    Returns:
+    Returns
+    -------
         None
     """
     db = session_local_factory()()

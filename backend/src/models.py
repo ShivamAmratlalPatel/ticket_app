@@ -1,16 +1,17 @@
-"""Store database models"""
-from .database import Base
-from sqlalchemy import Column, String, Boolean, ForeignKey
+"""Store database models."""
+from sqlalchemy import Boolean, Column, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 from .commands import generate_uuid
+from .database import Base
 
 
 class Chapter(Base):
-    """Chapter table"""
+    """Chapter table."""
 
     __tablename__: str = "chapters"
-    id = Column(
+    chapter_id = Column(
         UUID(as_uuid=True),
         primary_key=True,
         default=generate_uuid(),
@@ -22,10 +23,10 @@ class Chapter(Base):
 
 
 class Committee(Base):
-    """Committee table"""
+    """Committee table."""
 
     __tablename__: str = "committees"
-    id = Column(
+    commmittee_id = Column(
         UUID(as_uuid=True),
         primary_key=True,
         default=generate_uuid(),
