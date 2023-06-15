@@ -1,7 +1,6 @@
 """Store database models."""
 from sqlalchemy import Boolean, Column, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 
 from .commands import generate_uuid
 from .database import Base
@@ -19,8 +18,6 @@ class Chapter(Base):
     chapter_name = Column(String, nullable=False, unique=True, index=True)
     is_deleted = Column(Boolean, nullable=False, default=False)
 
-    committees = relationship("Committee", back_populates="chapters")
-
 
 class Committee(Base):
     """Committee table."""
@@ -35,6 +32,8 @@ class Committee(Base):
     last_name = Column(String)
     email = Column(String)
     phone = Column(String)
-    chapter_id = Column(UUID(as_uuid=True), ForeignKey("chapters.id"), nullable=False)
-
-    chapter = relationship("Chapter", back_populates="committees")
+    chapter_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("chapters.chapter_id"),
+        nullable=False,
+    )

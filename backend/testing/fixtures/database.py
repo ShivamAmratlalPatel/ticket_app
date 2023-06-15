@@ -3,7 +3,7 @@ import os
 import sys
 
 import pytest
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, text
 
 from alembic.command import upgrade as alembic_upgrade
 from alembic.config import Config as AlembicConfig
@@ -38,7 +38,7 @@ def session(session_factory: session_local_factory) -> session_local_factory:
             "alembic_version",
         ]:
             continue
-        conn.execute(f"TRUNCATE {table.name} CASCADE")
+        conn.execute(text(f"TRUNCATE {table.name} CASCADE"))
     transaction.commit()
 
     try:

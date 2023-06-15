@@ -1,7 +1,12 @@
 """Main module for the FastAPI application."""
 
-from fastapi import FastAPI, status
+from fastapi import Depends, FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Query, Session
+
+from backend.src.helpers import get_db
+from backend.src.models import Chapter
+from backend.src.schemas import ChapterList
 
 app = FastAPI()
 
@@ -13,6 +18,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+db = Depends(get_db)
 
 
 @app.get("/", response_model=dict, status_code=status.HTTP_200_OK)
@@ -69,46 +76,35 @@ def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
 
 
-# @app.get(
-#     "/chapters",
-#         status.HTTP_200_OK: {
-#                 "application/json": {
-#             },
-#         },
-#         status.HTTP_500_INTERNAL_SERVER_ERROR: {
-#         },
-#     },
-# def get_chapters(db: Session = Depends(get_db)) -> ChapterList:
-#     """
-#     Get a list of chapters.
-#
-#     Args:
-#             database session
-#
-#     Returns:
-#         ChapterList: list of chapters
-#
-#     Raises:
-#         HTTPException: if unable to retrieve chapters from the database
-#
-#     Examples:
-#         >>> get_chapters()
-#     """
-#         raise HTTPException(
-
-
-@app.get("/hi", status_code=status.HTTP_200_OK)
-def hi() -> dict[str, str]:
+@app.get(
+    "/chapters",
+    response_model=ChapterList,
+    status_code=status.HTTP_200_OK,
+    responses={
+        status.HTTP_404_NOT_FOUND: {
+            "model": ChapterList,
+            "description": "Chapters not found",
+        },
+    },
+)
+def get_chapters(db: Session = db) -> ChapterList:
     """
-    Say hi to the user.
+    Get a list of chapters.
 
-    Returns
-    -------
-        dict: message
+    Args:
+        db: Session
 
-    Examples
-    --------
-        >>> hi()
-        {"message": "Hi there!"}
+    Returns:
+        ChapterList: list of chapters
+
+    Raises:
+        HTTPException: if unable to retrieve chapters from the database
+
+    Examples:
+        >>> get_chapters()
     """
-    return {"message": "Hi there!"}
+    chapters: Query[type[Chapter]] = db.query(Chapter)
+
+    chapters = [chapter.chapter_name for chapter in chapters]
+
+    return ChapterList(chapters=chapters)
