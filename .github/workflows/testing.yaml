@@ -28,11 +28,11 @@ jobs:
 
     - name: Run black
       working-directory: backend
-      run: black src/
+      run: black src
 
     - name: Run isort
       working-directory: backend
-      run: isort src/
+      run: isort src
 
     - name: Run ruff
       working-directory: backend
@@ -58,7 +58,7 @@ jobs:
 
       - name: Run pytest with coverage
         working-directory: backend
-        run: pytest --cov=my_project testing/
+        run: pytest --cov=my_project testing
 
       - name: Check coverage
         working-directory: backend
