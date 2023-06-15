@@ -4,9 +4,7 @@ import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from backend.testing.fixtures.database import session  # noqa: F401
-from src import get_db  # noqa: F401
-from src import app
+from backend.src import app
 
 client = TestClient(app)
 

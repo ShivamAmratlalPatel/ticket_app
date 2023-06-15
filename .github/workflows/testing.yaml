@@ -24,18 +24,18 @@ jobs:
         python-version: '3.11.1'
 
     - name: Install dependencies
-      run: pip install -r backend/requirements.txt
+      run: pip install -r src/requirements.txt
 
     - name: Run black
-      working-directory: backend
+      working-directory: src
       run: black src
 
     - name: Run isort
-      working-directory: backend
+      working-directory: src
       run: isort src
 
     - name: Run ruff
-      working-directory: backend
+      working-directory: src
       run: ruff check .
 
   pytest-with-coverage:
@@ -54,14 +54,14 @@ jobs:
           python-version: '3.11.1'
 
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt
+        run: pip install -r src/requirements.txt
 
       - name: Run pytest with coverage
-        working-directory: backend
+        working-directory: src
         run: pytest --cov=my_project testing
 
       - name: Check coverage
-        working-directory: backend
+        working-directory: src
         run: |
           COVERAGE=$(coverage report | grep TOTAL | awk '{print $NF}' | tr -d '%')
           if [ $COVERAGE != 100 ]; then
