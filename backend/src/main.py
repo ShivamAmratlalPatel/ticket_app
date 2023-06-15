@@ -4,9 +4,9 @@ from fastapi import Depends, FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Query, Session
 
-from backend.src.helpers import get_db
-from backend.src.models import Chapter
-from backend.src.schemas import ChapterList
+from src.helpers import get_db
+from src.models import Chapter
+from src.schemas import ChapterList
 
 app = FastAPI()
 

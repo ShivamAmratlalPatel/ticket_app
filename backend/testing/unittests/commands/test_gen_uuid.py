@@ -21,7 +21,7 @@ class TestGenUUID(unittest.TestCase):
         """
         from uuid import UUID
 
-        from backend.src.commands import generate_uuid
+        from src.commands import generate_uuid
 
         result = generate_uuid()
 

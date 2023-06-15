@@ -5,9 +5,9 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from backend.src import app, get_db
-from backend.src.commands import generate_uuid
-from backend.src.models import Chapter
+from src import app, get_db
+from src.commands import generate_uuid
+from src.models import Chapter
 from testing.fixtures.database import session, session_factory  # noqa: F401
 
 

@@ -7,7 +7,7 @@ from sqlalchemy import MetaData, text
 
 from alembic.command import upgrade as alembic_upgrade
 from alembic.config import Config as AlembicConfig
-from backend.src.database import session_local_factory
+from src.database import session_local_factory
 
 
 @pytest.fixture(scope="session")
