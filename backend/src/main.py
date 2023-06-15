@@ -97,7 +97,7 @@ def healthcheck() -> dict[str, str]:
 #         raise HTTPException(
 
 
-@app.get("/hihihih", status_code=status.HTTP_200_OK)
+@app.get("/hi", status_code=status.HTTP_200_OK)
 def hi() -> dict[str, str]:
     """
     Say hi to the user.

@@ -26,7 +26,7 @@ class Committee(Base):
     """Committee table."""
 
     __tablename__: str = "committees"
-    commmittee_id = Column(
+    committee_id = Column(
         UUID(as_uuid=True),
         primary_key=True,
         default=generate_uuid(),
