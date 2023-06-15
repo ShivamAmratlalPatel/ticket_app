@@ -1,52 +1,19 @@
 repos:
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: stable
     hooks:
       - id: black
-        name: black
-        entry: cd backend && poetry run black src/
-        language: system
-        pass_filenames: false
-        types: [python]
+        language_version: python3.11
 
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
       - id: isort
-        name: isort
-        entry: cd backend && poetry run isort src/
-        language: system
-        pass_filenames: false
-        types: [python]
+        args: [ "--profile", "black", "--filter-files" ]
 
-      - id: flake8
-        name: flake8
-        entry: cd backend && poetry run flake8 src/
-        language: system
-        pass_filenames: false
-        types: [python]
-
-      - id: pylint
-        name: pylint
-        entry: cd backend && poetry run pylint src/
-        language: system
-        pass_filenames: false
-        types: [python]
-
-      - id: mypy
-        name: mypy
-        entry: cd backend && poetry run mypy src/
-        language: system
-        pass_filenames: false
-        types: [python]
-
-      - id: darglint
-        name: darglint
-        entry: cd backend && poetry run darglint src/
-        language: system
-        pass_filenames: false
-        types: [python]
-
-      - id: pytest
-        name: pytest
-        entry: cd backend && poetry run pytest testing/
-        language: system
-        pass_filenames: false
-        types: [python]
-
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.0.272
+    hooks:
+      - id: ruff
+        args: [ "--config", "backend/pyproject.toml" ]
