@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [vue()],
  server: {
    host: true,
-   port: 8001, // This is the port which we will use in docker
+   port: 3000, // This is the port which we will use in docker
  }
 })
