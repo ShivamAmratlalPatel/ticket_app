@@ -1,4 +1,8 @@
-<template></template>
+<template>
+<div>
+  <button type="button" @click="Login">Login {{ message }}</button>
+</div>
+</template>
 
 <style></style>
 
