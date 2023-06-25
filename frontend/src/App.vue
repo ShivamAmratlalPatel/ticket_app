@@ -3,9 +3,6 @@ import Login from './components/Login.vue'
 </script>
 
 <template>
-  <div>
-      <img src="./assets/qrcode.png" class="logo vue" alt="Vue logo" />  
-  </div>
   <Login msg="Vite + Vue" />
 </template>
 
